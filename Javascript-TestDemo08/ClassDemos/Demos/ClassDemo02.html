@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script>
+        /*
+          Tag:
+           针对个人博客文章（http://www.cnblogs.com/bsfz/p/7720087.html）  相关演示代码demo。
+      */
+
+
+
+        /*
+            商品实体类
+        */
+        function Product() {
+
+            var that = this;
+            that.id = '';
+            that.skus = [];// 注意：先留意这里是一个数组类型
+
+            that.print = function () {
+                console.info(JSON.stringify({
+                    商品ID: that.id,
+                    商品规格: that.skus
+                }));
+            };
+        }
+
+        // 使用prototype额外扩展一些属性，这里是给当前“类”原型附加其他特征（Tips：一般场景不会这么应用添加，同时包含一些涉及共享的小细节，后面均有说明）
+        Product.prototype.intro = '';
+        Product.prototype.tags = [];// 注意：先留意这里也是一个数组类型
+
+        Product.prototype.printMore = function () { // Tips：这种方式附加函数，可直接共享到未来“实例”上，不会重复开辟函数对象的内存储存，性能更佳（可结合后面的理论，暂不延伸)。
+            var that = this;
+            console.info(JSON.stringify({
+                商品ID: that.id,
+                商品规格: that.skus,
+                商品摘要: that.intro,
+                商品标签: that.tags,
+            }));
+        };
+
+        // 新建两个Product“对象” - product01和product02：
+        var product01 = new Product();
+        var product02 = new Product();
+
+        // 打印product01和product02的数据信息
+        product01.printMore();// 输出：'{"商品ID":"","商品规格":[],"商品摘要":"","商品标签":[]}'
+        product02.printMore();// 输出：'{"商品ID":"","商品规格":[],"商品摘要":"","商品标签":[]}'
+
+        // 修改product02数据
+        product02.id = '1002';
+        product02.skus.push('颜色');
+
+        product02.intro = '商品02';
+        product02.tags.push('AutumnBing');
+
+        // 再次打印product01和product02的数据信息
+        product01.printMore();// 输出：'{"商品ID":"","商品规格":[],"商品摘要":"","商品标签":["T02"]}'
+        product02.printMore();// 输出：'{"商品ID":"1002","商品规格":["颜色"],"商品摘要":"商品02","商品标签":["AutumnBing"]}'
+
+        // Tips：当进行对象原型上的操作时（这里特指使用prototype 附加操作），需要注意一个容易遗漏的关于内存堆栈的小细节。由于数组（这里是Product原型附加的“tags”）属于引用类型（或者说对象类型），如果用类似于C语言里的指针概念解释则更形象，开辟的内存堆栈空间上，若为引用型，修改了该引用的具体值，那么影响的是所有指向当前堆空间的变量。所以上面修改了product02的 tags值后，再查看product01的 tags值也是同样发生了改变。当然，如果直接改了栈值（或者说指针标记），则等同于将当前指针指向了其他堆空间，属于自身改变了，当然就不会影响到指向原来堆的其他标记（比如操作：product02.tags=['AutumnBing']）。 另：其实很多地方均有这样的概念，容易入坑，这里暂且不深入，注意这个小细节就好）
+
+
+
+    </script>
+</head>
+<body>
+
+    <h1>Test</h1>
+
+
+
+
+
+
+
+</body>
+</html>

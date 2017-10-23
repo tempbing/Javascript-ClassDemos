@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script>
+        /*
+            Tag:
+             针对个人博客文章（http://www.cnblogs.com/bsfz/p/7720087.html）  相关演示代码demo。
+        */
+
+
+
+        /*
+           父商品实体类
+         */
+        class ProductBase {
+
+            // 声明构造函数
+            constructor(id) {
+                // 初始化字段
+                this.id = id;
+                this.skus = [];
+            }
+
+            // 声明其他函数  Tip：这是一个基于原型的函数，另外，Es6中若想定义一个类似java/c#中的“静态方法”，可配合“static”关键字来修饰。
+            print() {
+                console.info(JSON.stringify({
+                    商品ID: this.id,
+                    商品规格: this.skus,
+                }));
+            }
+
+        }
+
+        var productBase01 = new ProductBase('10001');
+        var productBase02 = new ProductBase('10002');
+
+        //console.log(productBase01.id); // 输出：'10001'
+        //console.log(productBase01.skus);// 输出：[]
+        productBase01.print(); // 输出：'{"商品ID":"10001","商品规格":[]}'
+        productBase02.print(); // 输出：'{"商品ID":"10002","商品规格":[]}'
+
+        productBase02.id = '10022';
+        productBase02.skus.push('重量');
+
+        productBase01.print();// 输出：'{"商品ID":"10001","商品规格":[]}'
+        productBase02.print(); // 输出：'{"商品ID":"10022","商品规格":["重量"]}'
+
+
+
+        /*
+          子商品实体类
+        */
+        class ProductSub extends ProductBase {
+            constructor(id, intro, arr) {
+                super(id); // 注意置前（相关提示原文：Must call super constructor in derived class before accessing 'this' or returning from derived constructor）
+                this.intro = intro;
+                this.tags = [];
+                if (arr && arr.length > 0) {
+                    for (var i = 0; i < arr.length; i++) {
+                        this.tags.push(arr[i]);
+                    }
+                }
+            }
+            printSub() {
+                console.info(JSON.stringify({
+                    商品ID: this.id,
+                    商品规格: this.skus,
+                    商品摘要: this.intro,
+                    商品标签: this.tags
+                }));
+            }
+        }
+
+        // 创建一个子商品：
+        var productSub = new ProductSub('10001001', '子商品', ['Autumn', 'Bing']);
+
+        // 打印子商品信息：
+        productSub.printSub();// 输出：'{"商品ID":"10001001","商品规格":[],"商品摘要":"子商品","商品标签":["Autumn","Bing"]}'
+
+
+
+    </script>
+</head>
+<body>
+
+    <h1>Test</h1>
+
+
+
+
+
+
+
+</body>
+</html>

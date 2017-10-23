@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script>
+        /*
+            Tag:
+             针对个人博客文章（http://www.cnblogs.com/bsfz/p/7720087.html）  相关演示代码demo。
+        */
+
+
+
+        /*
+            商品实体类
+        */
+        function Product() {
+
+            // 定义字段 -当然，在这里也可以称为属性
+            this.id = '';
+            this.skus = []; // 注意：此处引用类型，稍作留意。
+            var _ver = '0.1.0';
+
+            // 定义方法 -作为实例方法，性能不是最佳（可结合后面将提到的理论）；同时考虑兼容，暂不使用ES6里针对函数的新语法（其实类似后端常用的lambda 语法糖）
+            this.print = function () {
+                console.info(JSON.stringify({
+                    版本: _ver,
+                    商品ID: this.id,
+                    商品规格: this.skus
+                }));
+            };
+        }
+
+
+        // 新建一个Product“对象” - product01：
+        var product01 = new Product();
+
+        // 读取product01数据
+        console.log(product01.id);// 输出：''
+        console.log(product01.skus);// 输出：[]
+
+        // 调用product01实例方法，方便打印信息
+        product01.print();// 输出：'{"版本":"0.1.0","商品ID":"","商品规格":[]}'
+
+        // 修改product01数据
+        product01.id = '1001';
+        product01.skus = ['颜色', '大小'];
+
+        // 再次打印：
+        product01.print();// 输出：'{"版本":"0.1.0","商品ID":"1001","商品规格":["颜色","大小"]}'
+
+
+
+
+    </script>
+</head>
+<body>
+
+    <h1>Test</h1>
+
+
+
+
+
+
+
+</body>
+</html>

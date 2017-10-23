@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script>
+        /*
+          Tag:
+           针对个人博客文章（http://www.cnblogs.com/bsfz/p/7720087.html）  相关演示代码demo。
+      */
+
+
+
+        /*
+           父商品实体类（可传参）
+         */
+        function ProductBase(id) {
+            var that = this;
+            that.id = id;
+            that.print = function () {
+                console.info(JSON.stringify({
+                    商品ID: that.id,
+                }));
+            };
+        }
+
+        /*
+          子商品实体类
+        */
+        function ProductSub(id, sign) {
+            var that = this;
+            ProductBase.call(that, id); // Tips：使用call将对象进行传递回调，这里调用父对象上下文就相当于进行了“this.id = id”的操作。
+
+            that.sign = sign;
+            that.printSub = function () {
+                console.info(JSON.stringify({
+                    商品ID: that.id,
+                    商品标记: that.sign,
+                }));
+            };
+        }
+
+
+        // 定义父子两个商品
+        var productBase = new ProductBase('10001');
+        var productSub = new ProductSub('10002', '子商品');
+
+        // 打印信息
+        productBase.print();    // 输出：'{"商品ID":"10001"}'
+
+        productSub.print();  // 输出：'{"商品ID":"10002"}'
+        productSub.printSub(); // 输出：'{"商品ID":"10002","商品标记":"子商品"}'
+
+
+
+    </script>
+</head>
+<body>
+
+    <h1>Test</h1>
+
+
+
+
+
+
+
+</body>
+</html>

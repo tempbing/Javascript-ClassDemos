@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script>
+        /*
+         Tag:
+          针对个人博客文章（http://www.cnblogs.com/bsfz/p/7720087.html）  相关演示代码demo。
+     */
+
+
+
+        /*
+           父商品实体类
+         */
+        function ProductBase() {
+            var that = this;
+            that.id = '';
+            that.skus = [];
+            that.print = function () {
+                console.info(JSON.stringify({
+                    商品ID: that.id,
+                    商品规格: that.skus
+                }));
+            };
+        }
+
+        /*
+          子商品实体类
+        */
+        function ProductSub() {
+            var that = this;
+            that.sign = '子商品';
+            that.printSub = function () {
+                console.info(JSON.stringify({
+                    商品ID: that.id,
+                    商品规格: that.skus,
+                    商品标记: that.sign,
+                }));
+            };
+        }
+
+        // 指定prototype，使之实现基于原型的继承
+        //ProductSub.prototype = ProductBase.prototype; // 方式1：直接原型赋值，这里不延伸，也不推荐。
+        ProductSub.prototype = new ProductBase();// 方式2：使用默认构造器，依然要注意，这样相当于移植了原型链，存在上面Tips的问题，需留意。
+
+        // 定义父子两个商品
+        var productBase = new ProductBase();
+        var productSub = new ProductSub();
+
+        // 打印信息
+        productBase.print();    // 输出：'{"商品ID":"","商品规格":[]}'
+
+        productSub.print();  // 输出：'{"商品ID":"","商品规格":[]}'
+        productSub.printSub(); // 输出：'{"商品ID":"","商品规格":[],"商品标记":"子商品"}'
+
+
+
+
+    </script>
+</head>
+<body>
+
+    <h1>Test</h1>
+
+
+
+
+
+
+
+</body>
+</html>
